@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b001ddpdhsuug"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a202f"]
+size = Vector2(500, 500)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_b04vu"]
+points = PackedVector3Array(-250, 0, -250, -250, 0, 250, 250, 0, -250, 250, 0, 250)
+
+[node name="worldBarrier500x" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_a202f")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_b04vu")

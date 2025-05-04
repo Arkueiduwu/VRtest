@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6qgsw04e3p8h"]
+
+[ext_resource type="Script" uid="uid://btainy8irub5g" path="res://script/hud2D.gd" id="1_gqdnr"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gqdnr"]
+
+[node name="Hud2d" type="CanvasLayer"]
+script = ExtResource("1_gqdnr")
+
+[node name="HPBar" type="ProgressBar" parent="."]
+material = SubResource("CanvasItemMaterial_gqdnr")
+anchors_preset = -1
+anchor_left = 0.193
+anchor_right = 0.193
+offset_left = -22.576
+offset_top = 778.0
+offset_right = 1107.42
+offset_bottom = 852.0
+
+[node name="XPBar" type="ProgressBar" parent="."]
+offset_left = 581.0
+offset_top = 61.0
+offset_right = 1221.0
+offset_bottom = 88.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 877.0
+offset_top = 103.0
+offset_right = 939.0
+offset_bottom = 143.0
+text = "LVL 1"

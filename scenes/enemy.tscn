@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://436ltaw8asnh"]
+
+[ext_resource type="Script" uid="uid://27cg1jra4lxh" path="res://script/enemy.gd" id="1_7p1mj"]
+[ext_resource type="ArrayMesh" uid="uid://cxcadlpfp6l7o" path="res://assets/angel.obj" id="2_md0e3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_md0e3"]
+albedo_color = Color(1, 0.266667, 0.309804, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4ra3w"]
+points = PackedVector3Array(-0.0395195, 0.460385, -0.845289, 0.492439, 0.992439, 0.50567, 0.439127, 0.992439, 0.50567, -0.492533, 0.00746681, 0.5056, 0.492439, 0.00756065, 0.50567, -0.492533, 0.992533, -0.5056, 0.492439, 0.992439, -0.50567, 0.492439, 0.00756065, -0.50567, -0.492533, 0.992533, 0.5056, -0.492533, 0.00746681, -0.5056, -0.0395227, 0.539523, 0.845358, 0.0395227, 0.539523, -0.845358, 0.0395195, 0.460385, 0.845289, -0.0395227, 0.539523, -0.845358, 0.0395227, 0.539523, 0.845358, -0.0395195, 0.460385, 0.845289, 0.0395195, 0.460385, -0.845289)
+
+[node name="enemy" type="CharacterBody3D"]
+script = ExtResource("1_7p1mj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_md0e3")
+surface_material_override/0 = SubResource("StandardMaterial3D_md0e3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_4ra3w")
