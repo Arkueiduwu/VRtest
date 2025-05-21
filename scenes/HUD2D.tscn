@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c6qgsw04e3p8h"]
 
-[ext_resource type="Script" uid="uid://btainy8irub5g" path="res://script/hud2D.gd" id="1_gqdnr"]
+[ext_resource type="Script" uid="uid://cmgrvbyr3m3ux" path="res://script/hud_2d.gd" id="1_gqdnr"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gqdnr"]
 
@@ -29,3 +29,7 @@ offset_top = 103.0
 offset_right = 939.0
 offset_bottom = 143.0
 text = "LVL 1"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="value_changed" from="XPBar" to="." method="_on_xp_bar_value_changed"]

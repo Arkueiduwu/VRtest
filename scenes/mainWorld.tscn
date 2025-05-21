@@ -1,33 +1,36 @@
-[gd_scene load_steps=6 format=3 uid="uid://dpqybydyg8j0k"]
+[gd_scene load_steps=11 format=3 uid="uid://dpqybydyg8j0k"]
 
 [ext_resource type="Script" uid="uid://boeww4541nfxa" path="res://script/enemySpawner.gd" id="1_6nmw7"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_cudoh"]
+[ext_resource type="Script" uid="uid://cn3ugkqnb3v4v" path="res://script/main_world.gd" id="1_sw8aq"]
 [ext_resource type="PackedScene" uid="uid://b001ddpdhsuug" path="res://scenes/world_barrier_100.tscn" id="2_tprx1"]
 [ext_resource type="PackedScene" uid="uid://bvfdm0wvpvre2" path="res://scenes/player.tscn" id="3_5kitg"]
 [ext_resource type="PackedScene" uid="uid://c5tqevs5lfdkq" path="res://scenes/ak47.tscn" id="4_tprx1"]
+[ext_resource type="Texture2D" uid="uid://qxt6cyvwidym" path="res://assets/enviroments/kloofendal_48d_partly_cloudy_puresky_4k.exr" id="6_6nmw7"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_sw8aq"]
+panorama = ExtResource("6_6nmw7")
+
+[sub_resource type="Sky" id="Sky_2d670"]
+sky_material = SubResource("PanoramaSkyMaterial_sw8aq")
+radiance_size = 2
+
+[sub_resource type="Environment" id="Environment_5kitg"]
+background_mode = 2
+background_energy_multiplier = 1.97
+sky = SubResource("Sky_2d670")
+ambient_light_color = Color(0.77655, 0.645427, 0.976501, 1)
+ambient_light_energy = 8.89
+reflected_light_source = 2
 
 [node name="mainWorld" type="Node3D"]
+script = ExtResource("1_sw8aq")
 
 [node name="StartXR" parent="." instance=ExtResource("1_cudoh")]
 
 [node name="player" parent="." instance=ExtResource("3_5kitg")]
 
 [node name="worldBarrier500x" parent="." instance=ExtResource("2_tprx1")]
-
-[node name="worldBarrier500x2" parent="." instance=ExtResource("2_tprx1")]
-transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -250, 250, 0)
-
-[node name="worldBarrier500x3" parent="." instance=ExtResource("2_tprx1")]
-transform = Transform3D(4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, -3.82137e-15, 8.74228e-08, -1, 250, 250, 0)
-skeleton = NodePath("../worldBarrier500x2")
-
-[node name="worldBarrier500x4" parent="." instance=ExtResource("2_tprx1")]
-transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 250, 250)
-skeleton = NodePath("../worldBarrier500x2")
-
-[node name="worldBarrier500x5" parent="." instance=ExtResource("2_tprx1")]
-transform = Transform3D(1.91069e-15, 4.37114e-08, 1, 1, -4.37114e-08, 0, 4.37114e-08, 1, -4.37114e-08, 0, 250, -250)
-skeleton = NodePath("../worldBarrier500x2")
 
 [node name="ak47" parent="." instance=ExtResource("4_tprx1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.82355, 4.98538, -1.54264)
@@ -41,3 +44,8 @@ spot_attenuation = 0.49
 [node name="EnemySpawner" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.18141, 0)
 script = ExtResource("1_6nmw7")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_5kitg")
+
+[connection signal="levelUp" from="player" to="." method="_on_player_level_up"]

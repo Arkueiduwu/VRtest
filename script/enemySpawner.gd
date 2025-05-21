@@ -11,7 +11,7 @@ var spawn_timer: float = 0.0
 
 func _ready():
 	if !enemy_scene:
-		enemy_scene = load("res://scenes/enemy.tscn")  # Fallback
+		enemy_scene = load("res://scenes/enemy.tscn")
 
 func _physics_process(delta: float):
 	if current_enemies >= max_enemies:
@@ -24,14 +24,14 @@ func _physics_process(delta: float):
 
 func spawn_enemy():
 	var enemy = enemy_scene.instantiate()
-	get_parent().add_child(enemy)  # Añade al padre del spawner (ej: el mundo)
+	get_tree().current_scene.add_child(enemy)  # Añade al padre del spawner (ej: el mundo)
 	
 	# Posición aleatoria en círculo (más natural que un cuadrado)
 	var random_angle = randf_range(0, TAU)
 	var random_radius = randf_range(0, spawn_area_radius)
 	enemy.global_position = global_position + Vector3(
 		cos(random_angle) * random_radius,
-		0.0,  # Altura fija
+		0.0,
 		sin(random_angle) * random_radius
 	)
 	

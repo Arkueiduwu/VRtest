@@ -5,11 +5,11 @@ extends CanvasLayer
 @onready var XPBar: ProgressBar = $XPBar
 @onready var LVLLabel: Label = $Label
 
-var currentHP: float = 0.0
-var maxHP: float = 0.0
-var currentXP: float = 0.0
-var maxXP: float = 0.0
-var LVL: int = 0
+var stats : Dictionary = {
+	"HP": Main.stat.new(100, 0, 100),
+	"XP": Main.stat.new(0, 0, 100),
+	"LVL": Main.stat.new(1, 1, 100)
+}
 
 func _ready() -> void:
 	if !player:
@@ -18,49 +18,16 @@ func _ready() -> void:
 		return
 	
 	# Inicialización segura de valores
-	currentHP = player.HP
-	maxHP = player.maxHP
-	currentXP = player.XP
-	maxXP = player.maxXP
-	LVL = player.LVL
-	
-	# Actualización inicial del HUD
-	update_hud()
+	stats["HP"] = player.stats["HP"]
+	stats["XP"]  = player.stats["XP"]
+	stats["LVL"]  = player.stats["LVL"]
 
 func _physics_process(delta: float) -> void:
 	if !player:
 		return
 	
-	# Actualización condicional (solo si cambian los valores)
-	if currentHP != player.HP || maxHP != player.maxHP:
-		currentHP = player.HP
-		maxHP = player.maxHP
-		update_health()
-	
-	if currentXP != player.XP || maxXP != player.maxXP:
-		currentXP = player.XP
-		maxXP = player.maxXP
-		update_xp()
-	
-	if LVL != player.LVL:
-		LVL = player.LVL
-		update_level()
+	if stats != player.stats:	
+		updateStats()
 
-func update_hud() -> void:
-	update_health()
-	update_xp()
-	update_level()
-
-func update_health() -> void:
-	if HPBar:
-		HPBar.max_value = maxHP
-		HPBar.value = currentHP
-
-func update_xp() -> void:
-	if XPBar:
-		XPBar.max_value = maxXP
-		XPBar.value = currentXP
-
-func update_level() -> void:
-	if LVLLabel:
-		LVLLabel.text = "LVL: %d" % LVL
+func updateStats() -> void:
+	stats = player.stats

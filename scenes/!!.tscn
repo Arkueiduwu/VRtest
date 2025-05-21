@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbhrnlqi5fgwp"]
+
+[ext_resource type="Script" uid="uid://u3v8fwnmb43n" path="res://script/!!.gd" id="1_2ebbr"]
+[ext_resource type="AudioStream" uid="uid://n248i4ygx6xd" path="res://assets/sounds/yippee-tbh.mp3" id="1_68r77"]
+[ext_resource type="Texture2D" uid="uid://do60bjto7607k" path="res://assets/mats/square slate black/762EA5F5-024C-476A-A819-3EDCD8651564.jpg" id="2_jw53g"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_u43bx"]
+size = Vector3(0.58, 0.435, 0.535)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_68qng"]
+albedo_texture = ExtResource("2_jw53g")
+uv1_scale = Vector3(1.82, 1.76, 1)
+
+[node name="!!" type="Node3D"]
+script = ExtResource("1_2ebbr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_u43bx")
+surface_material_override/0 = SubResource("StandardMaterial3D_68qng")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("1_68r77")
+autoplay = true
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,29 +1,16 @@
-extends CharacterBody3D
+extends baseEntity
 
-@export var HP: float = 10.0
-@export var speed: float = 100.0  # Valor más manejable que 10000
-@export var XPonKill: float = 33.4
-
-@onready var player: CharacterBody3D = get_node_or_null("../player")
+@onready var player: baseEntity = get_node_or_null("../player")
 
 func _ready() -> void:
-	# Mejor manera de encontrar al jugador
+	stats["XP"].value = 100
 	if !player:
 		var players = get_tree().get_nodes_in_group("player")
 		if players.size() > 0:
 			player = players[0]
 
-func change_stat(type: String, amount: float) -> void:
-	match type:
-		"HP":
-			HP += amount
-			if HP <= 0:
-				die()
-
 func die() -> void:
-	# Aquí podrías añadir efectos de muerte o XP al jugador
-	if player and player.has_method("gain_xp"):
-		player.gain_xp(XPonKill)
+	Main.changeStat(player, "XP", stats["XP"].value)
 	queue_free()
 
 func _physics_process(delta: float) -> void:
@@ -32,10 +19,7 @@ func _physics_process(delta: float) -> void:
 	
 	# Cálculo de movimiento mejorado
 	var direction = (player.global_position - global_position).normalized()
-	velocity = direction * speed * delta
-	
-	# Rotación hacia el jugador
-	look_at(player.global_position, Vector3.UP)
-	
-	# Movimiento suave con move_and_slide()
+	velocity = direction * stats["SPD"].value * delta
+	if global_position != player.global_position:
+		look_at(player.global_position, Vector3.UP)
 	move_and_slide()

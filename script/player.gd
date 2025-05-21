@@ -1,12 +1,7 @@
-extends CharacterBody3D
+extends baseEntity
 
-@export var HP: float = 100
-@export var maxHP: float = 100
-@export var XP: float = 0
-@export var maxXP: float = 100
-@export var LVL: int = 1
+signal levelUp
 
-### Movement Configuration ###
 var directional_vector_right: Vector2 = Vector2.ZERO
 var directional_vector_left: Vector2 = Vector2.ZERO
 var dead_zone_threshold: float = 0.05
@@ -15,24 +10,24 @@ var forward: Vector3 = Vector3.ZERO
 var right: Vector3 = Vector3.ZERO
 var movement_direction: Vector3 = Vector3.ZERO
 
-### Controller States ###
+var Rtrigger: bool = false
+var Ltrigger: bool = false
+
 var right_grip_pressed: bool = false
 var left_grip_pressed: bool = false
 var object_in_right_hand: RigidBody3D = null
 var object_in_left_hand: RigidBody3D = null
 
-### Crouching System ###
 var crouching: bool = false
 @export var crouch_height: float = 0.3
 @export var standing_height: float = 1.0
+@onready var yippie: PackedScene = load("res://scenes/!!.tscn")
 
-### Tunable Parameters ###
 @export var speed: float = 1000
 @export var rotation_speed: float = 90.0
 @export var gravity: float = 900
 @export var throw_force: float = 1.5
 
-### Node References ###
 @onready var xr_origin: XROrigin3D = $XROrigin3D
 @onready var xr_camera: XRCamera3D = $XROrigin3D/XRCamera3D
 @onready var right_hand: XRController3D = $XROrigin3D/manoDerecha
@@ -40,54 +35,44 @@ var crouching: bool = false
 @onready var right_grab_area: Area3D = $XROrigin3D/manoDerecha/grabAreaR
 @onready var left_grab_area: Area3D = $XROrigin3D/manoIzquierda/grabAreaL
 
-### Attachment Points ###
 @onready var right_hand_attachment: Marker3D = $XROrigin3D/manoDerecha/AttachmentPoint
 @onready var left_hand_attachment: Marker3D = $XROrigin3D/manoIzquierda/AttachmentPoint
 
-### Velocity Tracking ###
 var previous_positions = {}
-var last_delta: float = 0.016  # Default to 60fps
 
 func _ready():
-	# Node verification
 	assert(right_hand_attachment != null, "Right hand attachment missing!")
 	assert(left_hand_attachment != null, "Left hand attachment missing!")
 	assert(right_grab_area != null, "Right grab area missing!")
 	assert(left_grab_area != null, "Left grab area missing!")
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("exit"):
+		get_tree().current_scene.queue_free()
+
 func _physics_process(delta: float) -> void:
-	# Store delta for velocity calculations
-	last_delta = delta
-	
-	# Calculate movement vectors
 	forward = -xr_camera.global_transform.basis.z.normalized()
 	right = xr_camera.global_transform.basis.x.normalized()
 	forward.y = 0
 	right.y = 0
 	
-	# Apply movement
 	movement_direction = (forward * directional_vector_left.y + right * directional_vector_left.x).normalized()
 	velocity = movement_direction * speed * delta
 	
-	# Handle rotation
 	if abs(directional_vector_right.x) > dead_zone_threshold:
 		rotate_y(deg_to_rad(-directional_vector_right.x * rotation_speed * delta))
 	
-	# Apply gravity
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	
 	move_and_slide()
 	
-	# Update held objects' positions
 	update_held_objects()
-	if HP > maxHP:
-		HP = maxHP
-	if XP >= maxXP:
-		XP -= maxXP
-		LVL += 1
-		print("LVL UP!, current level = ", LVL)
-	
+	if stats["HP"].value > stats["HP"].max :
+		stats["HP"].value = stats["HP"].max
+	if stats["XP"].value >= stats["XP"].max:
+		onLevelUp()
+		
 
 func update_held_objects():
 	if object_in_right_hand and is_instance_valid(object_in_right_hand):
@@ -97,13 +82,13 @@ func update_held_objects():
 			var offset = object_in_right_hand.global_transform.origin - obj_attachment.global_transform.origin
 			object_in_right_hand.global_transform.origin = right_hand_attachment.global_transform.origin + offset
 			
-			# Para armas, alinear con la rotación de la mano
+			# Para armas alinear con la rotación de la mano
 			if object_in_right_hand.is_in_group("gun"):
 				object_in_right_hand.global_rotation = right_hand.global_rotation
 			else:
 				object_in_right_hand.global_transform.basis = right_hand_attachment.global_transform.basis
 		else:
-			# Sin punto de agarre, usar el centro
+			# Sin punto de agarre, usar el centro de "masa"
 			object_in_right_hand.global_transform = right_hand_attachment.global_transform
 	
 	if object_in_left_hand and is_instance_valid(object_in_left_hand):
@@ -144,14 +129,15 @@ func _on_mano_derecha_button_pressed(type: String) -> void:
 		try_grab_right()
 	if type == "by_button":
 		toggle_crouch()
-	if type == "trigger_click":
-		if object_in_right_hand and object_in_right_hand.is_in_group("gun"):
-			object_in_right_hand.fire()
+	if type == "trigger_click" and object_in_right_hand != null:
+		Rtrigger = true
 
 func _on_mano_derecha_button_released(type: String) -> void:
 	if type == "grip_click":
 		right_grip_pressed = false
 		release_right()
+	if type == "trigger_click" and object_in_right_hand != null:
+		Rtrigger = false
 
 func toggle_crouch():
 	crouching = !crouching
@@ -191,19 +177,14 @@ func release_object(attachment_point: Marker3D, obj: RigidBody3D) -> void:
 	if not obj or not is_instance_valid(obj): return
 	if obj.is_in_group("gun"):
 		obj.source = null
-	# Guardamos la posición global antes de reparentear
 	var global_pos = obj.global_position
-	
-	# Reparentamos el objeto a la escena principal
 	var scene_root = get_tree().current_scene
 	attachment_point.remove_child(obj)
 	scene_root.add_child(obj)
 	
 	# Restauramos la posición exacta
 	obj.global_position = global_pos
-	
-	# Restauramos las propiedades físicas básicas
-	obj.freeze = false
+
 	obj.collision_layer = 1
 	obj.collision_mask = 1
 
@@ -256,7 +237,6 @@ func grab_object(obj: RigidBody3D, hand_attachment: Marker3D) -> void:
 	if not grab_area.body_entered.is_connected(get(signal_name)):
 		grab_area.body_entered.connect(get(signal_name))
 
-### Area Signals ###
 func _on_grab_area_r_body_entered(body: Node3D) -> void:
 	if right_grip_pressed and not object_in_right_hand and body.is_in_group("grabbable") and body is RigidBody3D:
 		grab_object(body, right_hand_attachment)
@@ -267,9 +247,14 @@ func _on_grab_area_l_body_entered(body: Node3D) -> void:
 		grab_object(body, left_hand_attachment)
 		object_in_left_hand = body
 
-func change_stat(type : String, amount : float ) -> void:
-	match type:
-		"HP":
-			HP += amount
-		"XP":
-			XP += amount
+func onLevelUp():
+	stats["XP"].value = 0
+	stats["LVL"].value += 1
+	stats["XP"].max += 50 * stats["LVL"].value
+	print("LVL UP!, current level = ", stats["LVL"].value)
+	playLevelUpAnimation()
+	levelUp.emit
+
+func playLevelUpAnimation():
+	var yippieInstance = yippie.instantiate()
+	add_child(yippieInstance)
