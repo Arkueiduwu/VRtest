@@ -2,8 +2,8 @@
 extends Node3D  # O Marker3D si solo es un punto de referencia
 
 @export var enemy_scene: PackedScene
-@export var spawn_delay: float = 5.0
-@export var spawn_area_radius: float = 32.0 
+@export var spawn_delay: float = 2.0
+@export var spawn_area_radius: float = 48.0
 @export var max_enemies: int = 10 
 
 var current_enemies: int = 0
@@ -26,7 +26,7 @@ func spawn_enemy():
 	var enemy = enemy_scene.instantiate()
 	get_tree().current_scene.add_child(enemy)  # Añade al padre del spawner (ej: el mundo)
 	
-	# Posición aleatoria en círculo (más natural que un cuadrado)
+	
 	var random_angle = randf_range(0, TAU)
 	var random_radius = randf_range(0, spawn_area_radius)
 	enemy.global_position = global_position + Vector3(

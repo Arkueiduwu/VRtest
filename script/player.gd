@@ -17,7 +17,7 @@ var right_grip_pressed: bool = false
 var left_grip_pressed: bool = false
 var object_in_right_hand: RigidBody3D = null
 var object_in_left_hand: RigidBody3D = null
-
+var jumping: bool = false
 var crouching: bool = false
 @export var crouch_height: float = 0.3
 @export var standing_height: float = 1.0
@@ -25,7 +25,7 @@ var crouching: bool = false
 
 @export var speed: float = 1000
 @export var rotation_speed: float = 90.0
-@export var gravity: float = 900
+@export var gravity: float = 100
 @export var throw_force: float = 1.5
 
 @onready var xr_origin: XROrigin3D = $XROrigin3D
@@ -41,6 +41,7 @@ var crouching: bool = false
 var previous_positions = {}
 
 func _ready():
+	Main.player = self
 	assert(right_hand_attachment != null, "Right hand attachment missing!")
 	assert(left_hand_attachment != null, "Left hand attachment missing!")
 	assert(right_grab_area != null, "Right grab area missing!")
@@ -63,8 +64,12 @@ func _physics_process(delta: float) -> void:
 		rotate_y(deg_to_rad(-directional_vector_right.x * rotation_speed * delta))
 	
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		velocity.y -= gravity * delta/2
+	elif jumping and is_on_floor():
+		jump()
+	jumping = false
 	
+	print(velocity)
 	move_and_slide()
 	
 	update_held_objects()
@@ -122,6 +127,9 @@ func _on_mano_izquierda_button_released(type: String) -> void:
 	if type == "grip_click":
 		left_grip_pressed = false
 		release_left()
+	if type == "by_button":
+		
+		jumping = true	
 
 func _on_mano_derecha_button_pressed(type: String) -> void:
 	if type == "grip_click":
@@ -254,6 +262,9 @@ func onLevelUp():
 	print("LVL UP!, current level = ", stats["LVL"].value)
 	playLevelUpAnimation()
 	levelUp.emit
+
+func jump():
+	velocity.y += 200
 
 func playLevelUpAnimation():
 	var yippieInstance = yippie.instantiate()

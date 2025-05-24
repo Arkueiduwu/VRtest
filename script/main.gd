@@ -1,4 +1,5 @@
 extends Node
+var player : baseEntity = null
 
 class stat:
 	var value: int
