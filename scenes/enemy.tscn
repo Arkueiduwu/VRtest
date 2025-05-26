@@ -6,8 +6,9 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_md0e3"]
 albedo_color = Color(1, 0.266667, 0.309804, 1)
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4ra3w"]
-points = PackedVector3Array(-0.0395195, 0.460385, -0.845289, 0.492439, 0.992439, 0.50567, 0.439127, 0.992439, 0.50567, -0.492533, 0.00746681, 0.5056, 0.492439, 0.00756065, 0.50567, -0.492533, 0.992533, -0.5056, 0.492439, 0.992439, -0.50567, 0.492439, 0.00756065, -0.50567, -0.492533, 0.992533, 0.5056, -0.492533, 0.00746681, -0.5056, -0.0395227, 0.539523, 0.845358, 0.0395227, 0.539523, -0.845358, 0.0395195, 0.460385, 0.845289, -0.0395227, 0.539523, -0.845358, 0.0395227, 0.539523, 0.845358, -0.0395195, 0.460385, 0.845289, 0.0395195, 0.460385, -0.845289)
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_md0e3"]
+height = 3.0
+radius = 1.0
 
 [node name="enemy" type="CharacterBody3D"]
 script = ExtResource("1_7p1mj")
@@ -17,8 +18,9 @@ mesh = ExtResource("2_md0e3")
 surface_material_override/0 = SubResource("StandardMaterial3D_md0e3")
 
 [node name="Area3D" type="Area3D" parent="."]
-collision_layer = 3
-collision_mask = 3
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-shape = SubResource("ConvexPolygonShape3D_4ra3w")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.597412, 0)
+shape = SubResource("CylinderShape3D_md0e3")
+
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_3d_area_entered"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://1x5frudc6bsm"
+path="res://.godot/imported/Minecraft Damage (Oof) - Sound Effect (HD).mp3-500a806319fb75e4307a2eda9a0caaff.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/Minecraft Damage (Oof) - Sound Effect (HD).mp3"
+dest_files=["res://.godot/imported/Minecraft Damage (Oof) - Sound Effect (HD).mp3-500a806319fb75e4307a2eda9a0caaff.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

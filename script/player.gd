@@ -25,7 +25,7 @@ var crouching: bool = false
 
 @export var speed: float = 1000
 @export var rotation_speed: float = 90.0
-@export var gravity: float = 100
+@export var gravity: float = 600
 @export var throw_force: float = 1.5
 
 @onready var xr_origin: XROrigin3D = $XROrigin3D
@@ -42,6 +42,7 @@ var previous_positions = {}
 
 func _ready():
 	Main.player = self
+	stats["HP"].value = 100
 	assert(right_hand_attachment != null, "Right hand attachment missing!")
 	assert(left_hand_attachment != null, "Left hand attachment missing!")
 	assert(right_grab_area != null, "Right grab area missing!")
@@ -64,12 +65,10 @@ func _physics_process(delta: float) -> void:
 		rotate_y(deg_to_rad(-directional_vector_right.x * rotation_speed * delta))
 	
 	if not is_on_floor():
-		velocity.y -= gravity * delta/2
+		velocity.y -= gravity * delta
 	elif jumping and is_on_floor():
 		jump()
 	jumping = false
-	
-	print(velocity)
 	move_and_slide()
 	
 	update_held_objects()
@@ -77,6 +76,8 @@ func _physics_process(delta: float) -> void:
 		stats["HP"].value = stats["HP"].max
 	if stats["XP"].value >= stats["XP"].max:
 		onLevelUp()
+	if stats["HP"].value <= 0:
+		die()
 		
 
 func update_held_objects():
@@ -269,3 +270,10 @@ func jump():
 func playLevelUpAnimation():
 	var yippieInstance = yippie.instantiate()
 	add_child(yippieInstance)
+	
+func die():
+	get_tree().paused = true
+
+
+func _on_timer_timeout() -> void:
+	stats["HP"].value += 1
