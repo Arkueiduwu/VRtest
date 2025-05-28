@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bvfdm0wvpvre2"]
+[gd_scene load_steps=11 format=3 uid="uid://bvfdm0wvpvre2"]
 
 [ext_resource type="Script" uid="uid://cow7x0m7amw5i" path="res://script/player.gd" id="1_i3pqv"]
 [ext_resource type="PackedScene" uid="uid://raeeicvvindd" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_hand.tscn" id="1_onrkg"]
 [ext_resource type="Script" uid="uid://c6v430d6x6c1v" path="res://script/hud_3d.gd" id="2_dqkch"]
 [ext_resource type="PackedScene" uid="uid://njx823gyk04n" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_hand.tscn" id="2_i3pqv"]
+[ext_resource type="AudioStream" uid="uid://1x5frudc6bsm" path="res://assets/sounds/Minecraft Damage (Oof) - Sound Effect (HD).mp3" id="5_qlg0r"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_qhqgy"]
 
@@ -80,6 +81,10 @@ shape = SubResource("CylinderShape3D_qlg0r")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_qlg0r")
+volume_db = 9.264
 
 [connection signal="button_pressed" from="XROrigin3D/manoDerecha" to="." method="_on_mano_derecha_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/manoDerecha" to="." method="_on_mano_derecha_button_released"]

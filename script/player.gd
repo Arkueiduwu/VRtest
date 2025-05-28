@@ -1,6 +1,7 @@
 extends baseEntity
 
 signal levelUp
+@onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 var directional_vector_right: Vector2 = Vector2.ZERO
 var directional_vector_left: Vector2 = Vector2.ZERO
@@ -12,7 +13,7 @@ var movement_direction: Vector3 = Vector3.ZERO
 
 var Rtrigger: bool = false
 var Ltrigger: bool = false
-
+var temporalHP: float
 var right_grip_pressed: bool = false
 var left_grip_pressed: bool = false
 var object_in_right_hand: RigidBody3D = null
@@ -42,7 +43,8 @@ var previous_positions = {}
 
 func _ready():
 	Main.player = self
-	stats["HP"].value = 100
+	stats["HP"].value = 1000
+	temporalHP = stats["HP"].value
 	assert(right_hand_attachment != null, "Right hand attachment missing!")
 	assert(left_hand_attachment != null, "Left hand attachment missing!")
 	assert(right_grab_area != null, "Right grab area missing!")
@@ -53,6 +55,12 @@ func _input(event: InputEvent) -> void:
 		get_tree().current_scene.queue_free()
 
 func _physics_process(delta: float) -> void:
+	
+	if stats["HP"].value < temporalHP:
+		print(stats["HP"].value, temporalHP)
+		hurtSound()
+	temporalHP = stats["HP"].value
+	
 	forward = -xr_camera.global_transform.basis.z.normalized()
 	right = xr_camera.global_transform.basis.x.normalized()
 	forward.y = 0
@@ -277,3 +285,7 @@ func die():
 
 func _on_timer_timeout() -> void:
 	stats["HP"].value += 1
+
+func hurtSound():
+	audio_stream_player.playing = true
+	
