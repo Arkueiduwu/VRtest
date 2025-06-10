@@ -29,7 +29,6 @@ func spawn_enemy():
 	var enemy = enemy_scene.instantiate()
 	get_tree().current_scene.add_child(enemy)  # Añade al padre del spawner (ej: el mundo)
 	
-	
 	var random_angle = randf_range(0, TAU)
 	var random_radius = randf_range(0, spawn_area_radius)
 	enemy.global_position = global_position + Vector3(

@@ -4,7 +4,7 @@ extends RigidBody3D
 @export var fire_rate: float = 0.1
 @export var auto: bool = false
 @export var muzzle_velocity: float = 100
-@export var damage: int = 100
+@export var damage: int = 25
 @export var SFXShooting : String = "res://assets/sounds/762x39 Single WAV.wav"
 
 ### NODE REFERENCES ###
@@ -21,7 +21,8 @@ var triggerHeld: bool = false
 var player: baseEntity = null
 var cooldown_timer: Timer
 var flashDuration: Timer
-
+var mag: int = 30
+var maxMag: int = 30
 func _ready() -> void:
 	flash.visible = false
 	initialize_weapon()
@@ -69,9 +70,12 @@ func handle_single_fire() -> void:
 
 ### FIRING MECHANICS ###
 func fire() -> void:
+	if mag == 0:
+		return
 	start_fire_cooldown()
 	spawn_projectile()
 	play_gunshot_sound()
+	mag -= 1
 	emitFlash()
 
 func start_fire_cooldown() -> void:
@@ -113,5 +117,9 @@ func play_gunshot_sound() -> void:
 func emitFlash():
 	flash.visible = true
 	flashDuration.start(0.05)
-	
+
+func reload():
+	if mag != 0:
+		return
+	mag = maxMag
 	

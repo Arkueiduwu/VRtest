@@ -1,34 +1,35 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6qgsw04e3p8h"]
+[gd_scene load_steps=2 format=3 uid="uid://c6qgsw04e3p8h"]
 
 [ext_resource type="Script" uid="uid://cmgrvbyr3m3ux" path="res://script/hud_2d.gd" id="1_gqdnr"]
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_gqdnr"]
 
 [node name="Hud2d" type="CanvasLayer"]
 script = ExtResource("1_gqdnr")
 
 [node name="HPBar" type="ProgressBar" parent="."]
-material = SubResource("CanvasItemMaterial_gqdnr")
+modulate = Color(0.940413, 0.644517, 0.627647, 1)
 anchors_preset = -1
 anchor_left = 0.193
 anchor_right = 0.193
-offset_left = -22.576
-offset_top = 778.0
-offset_right = 1107.42
-offset_bottom = 852.0
+offset_left = -15.576
+offset_top = 994.0
+offset_right = 1114.42
+offset_bottom = 1068.0
 
 [node name="XPBar" type="ProgressBar" parent="."]
-offset_left = 581.0
-offset_top = 61.0
-offset_right = 1221.0
-offset_bottom = 88.0
+offset_left = 454.0
+offset_top = 933.0
+offset_right = 1348.0
+offset_bottom = 976.0
 
 [node name="Label" type="Label" parent="."]
-offset_left = 877.0
-offset_top = 103.0
-offset_right = 939.0
-offset_bottom = 143.0
-text = "LVL 1"
+offset_left = 1312.0
+offset_top = 754.0
+offset_right = 1581.0
+offset_bottom = 913.0
+theme_override_font_sizes/font_size = 100
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 

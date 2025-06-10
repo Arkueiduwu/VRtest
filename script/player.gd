@@ -137,7 +137,6 @@ func _on_mano_izquierda_button_released(type: String) -> void:
 		left_grip_pressed = false
 		release_left()
 	if type == "by_button":
-		
 		jumping = true	
 
 func _on_mano_derecha_button_pressed(type: String) -> void:
@@ -146,6 +145,8 @@ func _on_mano_derecha_button_pressed(type: String) -> void:
 		try_grab_right()
 	if type == "by_button":
 		toggle_crouch()
+	if type == "ax_button" and object_in_right_hand != null:
+		object_in_right_hand.reload()
 	if type == "trigger_click" and object_in_right_hand != null:
 		Rtrigger = true
 
@@ -270,7 +271,7 @@ func onLevelUp():
 	stats["XP"].max += 50 * stats["LVL"].value
 	print("LVL UP!, current level = ", stats["LVL"].value)
 	playLevelUpAnimation()
-	levelUp.emit
+	levelUp.emit()
 
 func jump():
 	velocity.y += 200

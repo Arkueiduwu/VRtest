@@ -22,4 +22,4 @@ func updateBars():
 	hpBar.value = player.stats["HP"].value
 	
 func updateLabel():
-	label.set_text("Current level = " + str(player.stats["LVL"].value))
+	label.set_text(str(player.stats["LVL"].value))

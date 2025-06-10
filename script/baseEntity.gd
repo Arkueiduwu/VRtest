@@ -7,5 +7,6 @@ var stats : Dictionary = {
 	"XP": Main.stat.new(0, 0, 100),
 	"LVL": Main.stat.new(1, 1, 1000),
 	"SPD": Main.stat.new(100, 0, 1000),
-	"GLD": Main.stat.new(0, 0, 10000)
+	"GLD": Main.stat.new(0, 0, 10000),
+	"DMG": Main.stat.new(1, 0, 1000)
 }
