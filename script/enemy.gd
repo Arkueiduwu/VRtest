@@ -20,9 +20,13 @@ func _ready() -> void:
 		material.metallic_specular = 0.8
 	material.albedo_color = randomColor
 	mesh_instance_3d.material_override = material
-	scale.x = randf_range(0.75, 1.25) *  (1 + player.stats["LVL"].value/10)
-	scale.y = randf_range(0.75, 1.25) *  (1 + player.stats["LVL"].value/10)
-	scale.y = randf_range(0.75, 1.25) *  (1 + player.stats["LVL"].value/10)
+	if EX != 20:
+		scale.x = randf_range(0.75, 1.25) *  (1 + player.stats["LVL"].value/10)
+		scale.y = randf_range(0.75, 1.25) *  (1 + player.stats["LVL"].value/10)
+		scale.y = randf_range(0.75, 1.25) *  (1 + player.stats["LVL"].value/10)
+	else:
+		scale = Vector3(2,2,2) * (1 + player.stats["LVL"].value/10)
+		stats["HP"].max += 100
 		
 func die() -> void:
 	Main.changeStat(player, "XP", stats["XP"].value)
@@ -34,6 +38,7 @@ func _physics_process(delta: float) -> void:
 	stats["DMG"].value = player.stats["LVL"].value * 50
 	var direction = (player.global_position - global_position + Vector3(0,0.5,0)).normalized()
 	velocity = (direction * stats["SPD"].value * randf_range(0.75, 1.25) + direction * stats["SPD"].value * player.stats["LVL"].value/25) * delta
+	stats["HP"].max = stats["HP"].max + stats["HP"].max * player.stats["LVL"].value / 20
 	if global_position != player.global_position:
 		look_at(player.global_position, Vector3.UP)
 	move_and_slide()

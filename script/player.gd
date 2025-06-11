@@ -2,6 +2,7 @@ extends baseEntity
 
 signal levelUp
 @onready var audio_stream_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var enemy_spawner: Node3D = $"../EnemySpawner"
 
 var directional_vector_right: Vector2 = Vector2.ZERO
 var directional_vector_left: Vector2 = Vector2.ZERO
@@ -281,7 +282,13 @@ func playLevelUpAnimation():
 	add_child(yippieInstance)
 	
 func die():
-	get_tree().paused = true
+	var nodesInWorld = get_tree().current_scene.get_children()
+	for i in nodesInWorld:
+		if i.is_in_group("enemy"):
+			i.queue_free()
+	if enemy_spawner:
+		enemy_spawner.queue_free()
+	Main.perdiste = true
 
 
 func _on_timer_timeout() -> void:

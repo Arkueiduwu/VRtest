@@ -7,6 +7,7 @@ extends CanvasLayer
 @onready var hpBar = $HPBar
 @onready var xpBar = $XPBar
 @onready var label = $Label
+@onready var control_2: Control = $Control2
 
 func _ready() -> void:
 	player = get_tree().current_scene.get_node("player")
@@ -14,7 +15,8 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Main.ganaste:
 		control.visible = true
-		
+	if Main.perdiste:
+		control_2.visible = true
 	updateBars()
 	updateLabel()
 	
