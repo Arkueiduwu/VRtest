@@ -1,4 +1,6 @@
 extends CanvasLayer
+@onready var control: Control = $Control
+
 @onready var player: baseEntity = null
 @onready var lvlUpSound = load("res://assets/sounds/12_3.wav")
 @onready var audioPlayer = $AudioStreamPlayer
@@ -10,6 +12,9 @@ func _ready() -> void:
 	player = get_tree().current_scene.get_node("player")
 
 func _process(delta: float) -> void:
+	if Main.ganaste:
+		control.visible = true
+		
 	updateBars()
 	updateLabel()
 	

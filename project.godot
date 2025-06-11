@@ -60,6 +60,7 @@ import/blender/enabled=false
 grabbable=""
 gun=""
 player=""
+enemy=""
 
 [input]
 

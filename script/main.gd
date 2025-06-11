@@ -1,6 +1,6 @@
 extends Node
 var player : baseEntity = null
-
+var ganaste: bool = false
 class stat:
 	var value: int
 	var min: int

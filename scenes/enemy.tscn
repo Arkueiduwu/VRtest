@@ -10,7 +10,7 @@ albedo_color = Color(1, 0.266667, 0.309804, 1)
 height = 3.0
 radius = 1.0
 
-[node name="enemy" type="CharacterBody3D"]
+[node name="enemy" type="CharacterBody3D" groups=["enemy"]]
 script = ExtResource("1_7p1mj")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

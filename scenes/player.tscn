@@ -27,6 +27,7 @@ script = ExtResource("1_i3pqv")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+process_mode = 3
 
 [node name="HUD3D" type="Node3D" parent="XROrigin3D/XRCamera3D"]
 script = ExtResource("2_dqkch")
