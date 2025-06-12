@@ -47,7 +47,7 @@ tracker = &"right_hand"
 [node name="grabAreaR" type="Area3D" parent="XROrigin3D/manoDerecha"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/manoDerecha/grabAreaR"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, -0.05, 0.05)
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 7, -0.1, -0.05, -0.559161)
 shape = SubResource("BoxShape3D_1jxqw")
 
 [node name="AttachmentPoint" type="Marker3D" parent="XROrigin3D/manoDerecha"]

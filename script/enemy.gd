@@ -43,7 +43,6 @@ func _physics_process(delta: float) -> void:
 		look_at(player.global_position, Vector3.UP)
 	move_and_slide()
 
-
 func _on_area_3d_area_entered(area: Area3D) -> void:
 	var target = area.get_parent()
 	print(target)

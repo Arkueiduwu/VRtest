@@ -21,7 +21,7 @@ var object_in_right_hand: RigidBody3D = null
 var object_in_left_hand: RigidBody3D = null
 var jumping: bool = false
 var crouching: bool = false
-@export var crouch_height: float = 0.3
+var crouch_height: float = 0.05
 @export var standing_height: float = 1.0
 @onready var yippie: PackedScene = load("res://scenes/!!.tscn")
 

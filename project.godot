@@ -86,4 +86,5 @@ debug1={
 [xr]
 
 openxr/enabled=true
+openxr/default_action_map="uid://bkat3lap6b2lc"
 shaders/enabled=true
