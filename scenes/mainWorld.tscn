@@ -58,4 +58,5 @@ environment = SubResource("Environment_fb8ai")
 stream = SubResource("AudioStreamMP3_6nmw7")
 autoplay = true
 
+[connection signal="xr_failed_to_initialize" from="StartXR" to="." method="_on_start_xr_xr_failed_to_initialize"]
 [connection signal="levelUp" from="player" to="." method="_on_player_level_up"]

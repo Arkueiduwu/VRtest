@@ -42,6 +42,8 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	Main.mag = mag
+	if notFired <= 2:
+		notFired += delta
 	update_trigger_state()
 	if auto:
 		handle_auto_fire()
@@ -105,9 +107,11 @@ func configure_projectile(projectile: Node3D) -> void:
 	
 	projectile.global_position = muzzle.global_position
 	projectile.velocity = fire_direction * muzzle_velocity
-	projectile.damage = damage
+	projectile.damage = damage * (1 + notFired)
+	projectile.scale *= (1 + notFired/2)
 	projectile.source = source
 	projectile.look_at(projectile.global_position + fire_direction)
+	notFired = 0
 
 func get_fire_direction() -> Vector3:
 	var local_direction = muzzle.target_position.normalized()

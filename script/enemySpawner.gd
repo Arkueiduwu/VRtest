@@ -5,7 +5,7 @@ extends Node3D  # O Marker3D si solo es un punto de referencia
 @export var spawn_delay: float = 2.0
 @export var spawn_area_radius: float = 48.0
 @export var max_enemies: int = 10 
-var wait: float = 5
+var wait: float = 10
 var player = null
 
 var current_enemies: int = 0

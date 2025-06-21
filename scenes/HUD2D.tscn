@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://c6qgsw04e3p8h"]
+[gd_scene load_steps=5 format=3 uid="uid://c6qgsw04e3p8h"]
 
 [ext_resource type="Script" uid="uid://cmgrvbyr3m3ux" path="res://script/hud_2d.gd" id="1_gqdnr"]
+[ext_resource type="Texture2D" uid="uid://cpfjdftuyj01n" path="res://assets/menu_pausa_upscale.png" id="2_8y875"]
+[ext_resource type="Script" uid="uid://v20hj4i4e28c" path="res://scenes/menu_pausa_upscale.gd" id="3_46myj"]
 
 [sub_resource type="Theme" id="Theme_gqdnr"]
 default_font_size = 120
@@ -109,5 +111,11 @@ theme_override_colors/font_color = Color(0.966959, 0.829396, 0.319349, 1)
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="MenuPausaUpscale" type="Sprite2D" parent="."]
+position = Vector2(920, 609)
+scale = Vector2(0.277257, 0.354861)
+texture = ExtResource("2_8y875")
+script = ExtResource("3_46myj")
 
 [connection signal="value_changed" from="XPBar" to="." method="_on_xp_bar_value_changed"]
