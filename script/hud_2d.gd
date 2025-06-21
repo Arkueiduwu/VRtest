@@ -8,6 +8,7 @@ extends CanvasLayer
 @onready var xpBar = $XPBar
 @onready var label = $Label
 @onready var control_2: Control = $Control2
+@onready var label_2: Label = $Label2
 
 func _ready() -> void:
 	player = get_tree().current_scene.get_node("player")
@@ -29,4 +30,5 @@ func updateBars():
 	hpBar.value = player.stats["HP"].value
 	
 func updateLabel():
-	label.set_text(str(player.stats["LVL"].value))
+	label.set_text( "Ronda "+ str(player.stats["LVL"].value))
+	label_2.set_text(str(Main.mag))

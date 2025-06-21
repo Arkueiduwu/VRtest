@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6qgsw04e3p8h"]
+[gd_scene load_steps=3 format=3 uid="uid://c6qgsw04e3p8h"]
 
 [ext_resource type="Script" uid="uid://cmgrvbyr3m3ux" path="res://script/hud_2d.gd" id="1_gqdnr"]
+
+[sub_resource type="Theme" id="Theme_gqdnr"]
+default_font_size = 120
 
 [node name="Hud2d" type="CanvasLayer"]
 script = ExtResource("1_gqdnr")
@@ -22,12 +25,12 @@ offset_right = 1348.0
 offset_bottom = 976.0
 
 [node name="Label" type="Label" parent="."]
-offset_left = 1312.0
-offset_top = 754.0
-offset_right = 1581.0
-offset_bottom = 913.0
+offset_left = 1176.0
+offset_top = 186.0
+offset_right = 1568.0
+offset_bottom = 345.0
 theme_override_font_sizes/font_size = 100
-text = "1"
+text = "Ronda 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -72,6 +75,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label" type="Label" parent="Control2"]
+layout_mode = 0
 offset_left = 243.0
 offset_top = 334.0
 offset_right = 1620.0
@@ -83,6 +87,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="Control2"]
+layout_mode = 0
 offset_left = -182.0
 offset_top = 569.0
 offset_right = 2114.0
@@ -91,6 +96,17 @@ theme_override_colors/font_color = Color(0.898039, 0.784314, 0, 1)
 theme_override_font_sizes/font_size = 70
 text = "juego terminado, quitate las gafas
  y entrega el casco y los controles."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 796.0
+offset_top = 769.0
+offset_right = 983.0
+offset_bottom = 934.0
+theme = SubResource("Theme_gqdnr")
+theme_override_colors/font_color = Color(0.966959, 0.829396, 0.319349, 1)
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
 

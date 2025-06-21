@@ -1,18 +1,23 @@
-extends RigidBody3D
+extends CharacterBody3D
 
 ### EXPORTS ###
 @export var fire_rate: float = 0.1
-@export var auto: bool = false
+@export var auto: bool = true	
 @export var muzzle_velocity: float = 100
-@export var damage: int = 25
+@export var damage: int = 40
 @export var SFXShooting : String = "res://assets/sounds/762x39 Single WAV.wav"
+@onready var audio_stream_player_3d_2: AudioStreamPlayer3D = $AudioStreamPlayer3D2
+@onready var collision_shape_3d: CollisionShape3D = $Area3D/CollisionShape3D
+@onready var area_3d: Area3D = $Area3D
+@onready var mesh_instance_3d: MeshInstance3D = $Cbuster/MeshInstance3D
+
 
 ### NODE REFERENCES ###
 @onready var shoot_sound: AudioStreamPlayer3D = $AudioStreamPlayer3D
 @onready var muzzle: RayCast3D = $RayCast3D
 @onready var projectileScene: PackedScene = load("res://scenes/projectile.tscn")
 @onready var flash: OmniLight3D = $OmniLight3D
-
+var notFired: float
 ### RUNTIME VARIABLES ###
 var projectileInstance: Node3D = null
 var can_fire: bool = true
@@ -21,8 +26,9 @@ var triggerHeld: bool = false
 var player: baseEntity = null
 var cooldown_timer: Timer
 var flashDuration: Timer
-var mag: int = 30
-var maxMag: int = 30
+var mag: int = 10
+var maxMag: int = 10
+
 func _ready() -> void:
 	flash.visible = false
 	initialize_weapon()
@@ -35,8 +41,8 @@ func _ready() -> void:
 	
 
 func _process(delta: float) -> void:
+	Main.mag = mag
 	update_trigger_state()
-	
 	if auto:
 		handle_auto_fire()
 	else:
@@ -71,6 +77,7 @@ func handle_single_fire() -> void:
 ### FIRING MECHANICS ###
 func fire() -> void:
 	if mag == 0:
+		
 		return
 	start_fire_cooldown()
 	spawn_projectile()
@@ -119,7 +126,6 @@ func emitFlash():
 	flashDuration.start(0.05)
 
 func reload():
-	if mag != 0:
-		return
 	mag = maxMag
+	audio_stream_player_3d_2.play()
 	

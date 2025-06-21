@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://c5tqevs5lfdkq"]
+
+[ext_resource type="Script" uid="uid://ba45idwvylsbs" path="res://script/gun.gd" id="1_vnc0r"]
+[ext_resource type="AudioStream" uid="uid://cirekoch4y5uy" path="res://assets/sounds/762x39 Single WAV.wav" id="2_nt7kn"]
+[ext_resource type="ArrayMesh" uid="uid://6wpum77px2wm" path="res://assets/cbuster.res" id="3_6tbsk"]
+[ext_resource type="AudioStream" uid="uid://cwmhfo1y75cek" path="res://assets/sounds/spaceReload.mp3" id="4_q254d"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n6wq"]
+albedo_color = Color(0.209193, 0.230107, 0.286312, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vnc0r"]
+emission_enabled = true
+emission = Color(0.751321, 0.00337019, 0.209042, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_nt7kn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_85cp8"]
+size = Vector3(0.159836, 0.161499, 0.293488)
+
+[node name="cbuster" type="CharacterBody3D" groups=["grabbable", "gun"]]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_vnc0r")
+
+[node name="Cbuster" type="MeshInstance3D" parent="."]
+transform = Transform3D(-10, -4.97273e-14, -1.19209e-06, -1.19209e-06, 4.37114e-07, 10, 1.77742e-14, 10, -4.37114e-07, -0.00277864, 0.0217243, 0.165529)
+material_override = SubResource("StandardMaterial3D_8n6wq")
+mesh = ExtResource("3_6tbsk")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Cbuster"]
+transform = Transform3D(0.01, -1.19209e-09, 5.21079e-17, -3.30872e-24, -4.37114e-10, -0.01, 1.19209e-09, 0.01, -4.37114e-10, -2.2701e-09, -0.0191855, 0.0189492)
+material_override = SubResource("StandardMaterial3D_vnc0r")
+mesh = SubResource("PrismMesh_nt7kn")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.0349985, -0.568351)
+target_position = Vector3(1, 0, 0)
+
+[node name="AttachmentPoint" type="Marker3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.0651265, -0.0653458, 0.0226177)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("2_nt7kn")
+attenuation_model = 2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0394913, -0.966466)
+light_color = Color(0.933333, 0.945098, 0.713726, 1)
+omni_range = 0.782
+omni_attenuation = 0.915
+
+[node name="AudioStreamPlayer3D2" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_q254d")
+volume_db = 80.0
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.775, 0, 0, 0, 0.775, 0, 0, 0, 0.775, -0.0169754, 0.181213, -0.0471444)
+shape = SubResource("BoxShape3D_85cp8")

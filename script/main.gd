@@ -2,6 +2,7 @@ extends Node
 var player : baseEntity = null
 var ganaste: bool = false
 var perdiste: bool = false
+var mag: int = 0
 class stat:
 	var value: int
 	var min: int

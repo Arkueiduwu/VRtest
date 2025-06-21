@@ -5,6 +5,7 @@ extends Node3D  # O Marker3D si solo es un punto de referencia
 @export var spawn_delay: float = 2.0
 @export var spawn_area_radius: float = 48.0
 @export var max_enemies: int = 10 
+var wait: float = 5
 var player = null
 
 var current_enemies: int = 0
@@ -15,6 +16,9 @@ func _ready():
 		enemy_scene = load("res://scenes/enemy.tscn")
 
 func _physics_process(delta: float):
+	if wait > 0:
+		wait -= delta
+		return
 	if current_enemies >= max_enemies:
 		return
 	player = Main.player

@@ -7,7 +7,7 @@ var player: baseEntity = null
 
 func _ready() -> void:
 	var material = StandardMaterial3D.new()
-	var randomColor: Color = Color(randf_range(0,1),randf_range(0,1),randf_range(0,1))
+	var randomColor: Color = Color(randf_range(0,1),randf_range(0,1),randf_range(0,1), 1)
 	
 	
 	stats["XP"].value = 100
@@ -35,6 +35,7 @@ func die() -> void:
 func _physics_process(delta: float) -> void:
 	if !player:
 		return
+	
 	stats["DMG"].value = player.stats["LVL"].value * 50
 	var direction = (player.global_position - global_position + Vector3(0,0.5,0)).normalized()
 	velocity = (direction * stats["SPD"].value * randf_range(0.75, 1.25) + direction * stats["SPD"].value * player.stats["LVL"].value/25) * delta
@@ -49,4 +50,8 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 	print(target)
 	if player != null and  target == player:
 		Main.changeStat(player, "HP", -stats["DMG"].value)
+		var material = StandardMaterial3D.new()
+		var randomColor: Color = Color(randf_range(0,1),randf_range(0,1),randf_range(0,1), 1)
+		material.albedo_color = randomColor
+		mesh_instance_3d.material_override = material
 		queue_free()
