@@ -47,4 +47,5 @@ func _on_area_3d_area_entered(area: Area3D) -> void:
 	var target = area.get_parent()
 	print(target)
 	if player != null and  target == player:
+		Main.changeStat(player, "HP", -stats["DMG"].value)
 		queue_free()
